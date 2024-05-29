@@ -1,1 +1,0 @@
-SNAP machine learning potential
