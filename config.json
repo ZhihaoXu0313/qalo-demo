@@ -1,0 +1,50 @@
+{
+    "_comment": "qalo-v.1.0",
+    "basic": {
+      "iterations": 100,
+      "model_infer_fm": false,
+      "model_infer_mlp": false,
+      "elements": ["Nb", "Mo", "Ta", "W"],
+      "composition_range": [[15, 20], [20, 30], [25, 35], [40, 45]],
+      "init_composition": [32, 32, 32, 32]
+    },
+    "work_path": {
+      "dft_data": "./database/dft",
+      "output": "./output",
+      "new_data": "./database/new",
+      "tmp": "./tmp",
+      "mlp": "./mlp",
+      "fm": "./fm",
+      "lmps": "./lmps"
+    },
+    "structure": {
+      "sc": [4, 4, 4],
+      "site": [
+      [0, 0, 0],
+      [0.5, 0.5, 0.5]],
+      "alat": 3.29,
+      "cutoff": 6
+    },
+    "mlp": {
+      "lmp_infile": "in.snap.lmp",
+      "lmp_coeffile": "NbMoTaW.snapcoeff"
+    },
+    "factor_machine": {
+      "learning_rate": 0.05,
+      "reg_lambda": 0.05,
+      "latent_space": 8,
+      "epoch": 10000,
+      "metric": "rmse",
+      "opt": "adagrad",
+      "sampling_ratio": 0.7
+    },
+    "quantum_annealer": {
+      "type": "qasim",
+      "constr": 5e+2,
+      "relax": 1e-2,
+      "shots": 5,
+      "mode": "mix",
+      "mix_circle": 5
+    }
+  }
+  
