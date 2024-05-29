@@ -1,0 +1,12 @@
+units metal
+boundary p p p
+atom_style atomic
+atom_modify map array
+read_data ./tmp/NbMoTaW.data
+pair_style snap
+pair_coeff * * ./lmps/NbMoTaW.snapcoeff ./lmps/NbMoTaW.snapparam Nb Mo Ta W
+compute PE all pe
+compute SNA all sna/atom 4.6 0.99363 6 0.511 0.5 0.489 0.489 0.7 0.5 0.8 0.6 rmin0 0.0 bzeroflag 0 quadraticflag 0 switchflag 1
+compute SNAD all snad/atom 4.6 0.99363 6 0.511 0.5 0.489 0.489 0.7 0.5 0.8 0.6 rmin0 0.0 bzeroflag 0 quadraticflag 0 switchflag 1
+thermo_style custom pe
+run 0

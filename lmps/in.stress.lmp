@@ -1,0 +1,36 @@
+variable T equal 300
+variable s equal 0.0005
+
+units metal
+boundary p p p
+atom_style atomic
+atom_modify map array
+
+read_data ./tmp/NbMoTaW.data
+pair_style snap
+pair_coeff * * ./mlp/NbMoTaW.snapcoeff ./mlp/NbMoTaW.snapparam Nb Mo Ta W
+
+thermo 1000
+thermo_style custom step lx ly lz press pxx pyy pzz pe temp
+
+velocity all create ${T} 12345 mom yes rot no
+fix 1 all npt temp ${T} ${T} 1 iso 0 0 1 drag 1
+
+timestep 0.001
+run 20000
+
+variable Ltmp equal lx
+variable Lini equal ${Ltmp}
+print "Initial Length, Lini: ${Lini}"
+
+unfix 1
+fix 1 all npt temp ${T} ${T} 1 y 0 0 1 z 0 0 1 drag 1
+fix 2 all deform 1 x erate ${s} units box remap x
+
+dump 1 all custom 500 heas.xyz id type x y z
+
+variable strain equal (lx-v_Lini)/v_Lini
+variable stress equal -pxx/10000
+fix 3 all print 100 "${strain} ${stress}" file strain_stress.txt screen no
+
+run 400000
